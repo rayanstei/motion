@@ -15,7 +15,7 @@ import { Outro } from "../components/Outro";
 import { Levitate } from "../components/Levitate";
 import { VideoCard } from "../components/VideoCard";
 import { COLORS, SHADOWS, SURFACE, fontFamily } from "../theme";
-import { APP, SOURCE_VIDEO, STAGE } from "./story";
+import { APP, BRAND, SOURCE_VIDEO, STAGE } from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 5 — "Collez une URL YouTube"  (0:15 → 0:19)
@@ -98,7 +98,8 @@ export const PasteLinkScene: React.FC = () => {
               <AppWindow
                 width={APP.windowWidth}
                 height={APP.windowHeight}
-                label="remakeit.io"
+                label={BRAND.domain}
+                brand={BRAND.name}
               />
             </div>
           </AbsoluteFill>

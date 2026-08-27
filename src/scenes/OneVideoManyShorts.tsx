@@ -13,6 +13,7 @@ import { GridBackground } from "../components/GridBackground";
 import { ShortCard, ShortSpec } from "../components/ShortCard";
 import { VideoCard } from "../components/VideoCard";
 import { COLORS, fontFamily } from "../theme";
+import { BRAND } from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Réglages de la scène — tout ce qui se retouche souvent est ici.
@@ -177,6 +178,7 @@ export const OneVideoManyShorts: React.FC = () => {
               meta="47 min · aujourd'hui"
               duration="47:52"
               clickAtInSeconds={TIMING.click}
+              actionLabel={BRAND.primaryAction}
             />
           </Interactive.Div>
         </AbsoluteFill>

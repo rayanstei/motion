@@ -1,4 +1,4 @@
-import { COLORS, SHADOWS, SURFACE } from "../theme";
+import { COLORS, SHADOWS, SURFACE, TINTS } from "../theme";
 
 /**
  * Fenêtre d'application : uniquement le châssis (barre de titre + cadre).
@@ -8,8 +8,11 @@ import { COLORS, SHADOWS, SURFACE } from "../theme";
 export const AppWindow: React.FC<{
   width: number;
   height: number;
+  /** Domaine affiché dans la barre d'adresse. */
   label: string;
-}> = ({ width, height, label }) => {
+  /** Nom du produit, à gauche de la barre de titre. */
+  brand: string;
+}> = ({ width, height, label, brand }) => {
   return (
     <div
       style={{
@@ -35,7 +38,12 @@ export const AppWindow: React.FC<{
           paddingLeft: 20,
           paddingRight: 18,
           gap: 8,
-          background: "linear-gradient(180deg, #FCFDFF 0%, #F7F9FC 100%)",
+          background:
+            "linear-gradient(180deg, " +
+            TINTS.chromeTop +
+            " 0%, " +
+            TINTS.chromeBottom +
+            " 100%)",
           borderBottom: "1px solid " + COLORS.line,
         }}
       >
@@ -44,7 +52,7 @@ export const AppWindow: React.FC<{
             width: 11,
             height: 11,
             borderRadius: 6,
-            backgroundColor: "#E2E6EE",
+            backgroundColor: TINTS.chromeDot,
           }}
         />
         <div
@@ -52,7 +60,7 @@ export const AppWindow: React.FC<{
             width: 11,
             height: 11,
             borderRadius: 6,
-            backgroundColor: "#E2E6EE",
+            backgroundColor: TINTS.chromeDot,
           }}
         />
         <div
@@ -60,7 +68,7 @@ export const AppWindow: React.FC<{
             width: 11,
             height: 11,
             borderRadius: 6,
-            backgroundColor: "#E2E6EE",
+            backgroundColor: TINTS.chromeDot,
           }}
         />
 
@@ -73,7 +81,7 @@ export const AppWindow: React.FC<{
             color: COLORS.ink,
           }}
         >
-          remakeit
+          {brand}
         </div>
 
         <div
@@ -116,7 +124,12 @@ export const AppWindow: React.FC<{
             width: 26,
             height: 26,
             borderRadius: 13,
-            background: "linear-gradient(135deg, #2F6BFF 0%, #7AA0FF 100%)",
+            background:
+              "linear-gradient(135deg, " +
+              TINTS.avatarFrom +
+              " 0%, " +
+              TINTS.avatarTo +
+              " 100%)",
           }}
         />
       </div>

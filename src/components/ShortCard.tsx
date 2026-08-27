@@ -1,5 +1,5 @@
 import { Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, DOF, SHADOWS, SURFACE } from "../theme";
+import { COLORS, DOF, SHADOWS, SURFACE, TINTS } from "../theme";
 
 export type ShortSpec = {
   /** Position finale, en px, relative au centre de la composition. */
@@ -121,7 +121,11 @@ export const ShortCard: React.FC<
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(150deg, #16203A 0%, #1C2A4B 55%, " +
+            "linear-gradient(150deg, " +
+            TINTS.thumbShort[0] +
+            " 0%, " +
+            TINTS.thumbShort[1] +
+            " 55%, " +
             accent +
             " 190%)",
         }}

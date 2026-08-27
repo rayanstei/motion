@@ -12,7 +12,13 @@ import { FloatingAssets } from "../components/FloatingAsset";
 import { GridBackground } from "../components/GridBackground";
 import { VideoCard } from "../components/VideoCard";
 import { COLORS, DOF, fontFamily } from "../theme";
-import { SCENE2_ASSETS, SCENE2_TRACKS, SOURCE_VIDEO, STAGE } from "./story";
+import {
+  EDITOR_UI,
+  SCENE2_ASSETS,
+  SCENE2_TRACKS,
+  SOURCE_VIDEO,
+  STAGE,
+} from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 2 — "Mais créer du contenu prend du temps."  (0:03 → 0:07)
@@ -162,6 +168,9 @@ export const OverloadScene: React.FC = () => {
                 width={STAGE.panelWidth}
                 height={STAGE.panelHeight}
                 tracks={SCENE2_TRACKS}
+                appName={EDITOR_UI.appName}
+                fileName={EDITOR_UI.fileName}
+                tools={EDITOR_UI.tools}
                 playhead={interpolate(
                   frame,
                   [0.3 * fps, 3.9 * fps],

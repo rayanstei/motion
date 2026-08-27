@@ -1,4 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
+import { COLORS, rgbOf } from "../theme";
 
 /**
  * Halos lumineux d'arrière-plan.
@@ -14,8 +15,8 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
  * Pour régler : `alpha` est le seul curseur d'intensité (0.04 = présence
  * quasi subliminale, 0.14 = maximum avant que le fond ne se remarque).
  */
-const BLUE = "47,107,255";
-const CORAL = "255,107,74";
+const BLUE = rgbOf(COLORS.blue);
+const CORAL = rgbOf(COLORS.coral);
 
 type Glow = {
   color: string;
@@ -42,24 +43,124 @@ type Glow = {
 export const GLOW_PRESETS = {
   /** Contenu groupé au centre. Deux masses en diagonale. */
   default: [
-    { color: BLUE, x: 20, y: 16, w: 58, h: 52, alpha: 0.11, drift: 1.2, periodInSeconds: 11, phase: 0 },
-    { color: CORAL, x: 84, y: 86, w: 54, h: 50, alpha: 0.1, drift: 1.4, periodInSeconds: 13, phase: 2.1 },
-    { color: BLUE, x: 62, y: 22, w: 40, h: 36, alpha: 0.045, drift: 1, periodInSeconds: 9, phase: 4.2 },
+    {
+      color: BLUE,
+      x: 20,
+      y: 16,
+      w: 58,
+      h: 52,
+      alpha: 0.11,
+      drift: 1.2,
+      periodInSeconds: 11,
+      phase: 0,
+    },
+    {
+      color: CORAL,
+      x: 84,
+      y: 86,
+      w: 54,
+      h: 50,
+      alpha: 0.1,
+      drift: 1.4,
+      periodInSeconds: 13,
+      phase: 2.1,
+    },
+    {
+      color: BLUE,
+      x: 62,
+      y: 22,
+      w: 40,
+      h: 36,
+      alpha: 0.045,
+      drift: 1,
+      periodInSeconds: 9,
+      phase: 4.2,
+    },
   ],
 
   /** Contenu étalé jusqu'aux bords. Les halos partent vers les angles. */
   wide: [
-    { color: BLUE, x: 12, y: 20, w: 62, h: 56, alpha: 0.125, drift: 1.5, periodInSeconds: 12, phase: 0 },
-    { color: CORAL, x: 90, y: 84, w: 58, h: 54, alpha: 0.115, drift: 1.6, periodInSeconds: 14, phase: 2.4 },
-    { color: BLUE, x: 78, y: 12, w: 42, h: 38, alpha: 0.05, drift: 1.2, periodInSeconds: 10, phase: 4.5 },
-    { color: CORAL, x: 8, y: 90, w: 40, h: 36, alpha: 0.045, drift: 1.3, periodInSeconds: 15, phase: 1.2 },
+    {
+      color: BLUE,
+      x: 12,
+      y: 20,
+      w: 62,
+      h: 56,
+      alpha: 0.125,
+      drift: 1.5,
+      periodInSeconds: 12,
+      phase: 0,
+    },
+    {
+      color: CORAL,
+      x: 90,
+      y: 84,
+      w: 58,
+      h: 54,
+      alpha: 0.115,
+      drift: 1.6,
+      periodInSeconds: 14,
+      phase: 2.4,
+    },
+    {
+      color: BLUE,
+      x: 78,
+      y: 12,
+      w: 42,
+      h: 38,
+      alpha: 0.05,
+      drift: 1.2,
+      periodInSeconds: 10,
+      phase: 4.5,
+    },
+    {
+      color: CORAL,
+      x: 8,
+      y: 90,
+      w: 40,
+      h: 36,
+      alpha: 0.045,
+      drift: 1.3,
+      periodInSeconds: 15,
+      phase: 1.2,
+    },
   ],
 
   /** Moments de tension. Le corail prend le dessus, le fond se referme. */
   deep: [
-    { color: CORAL, x: 82, y: 78, w: 62, h: 58, alpha: 0.135, drift: 1.6, periodInSeconds: 12, phase: 1 },
-    { color: BLUE, x: 16, y: 22, w: 56, h: 50, alpha: 0.1, drift: 1.4, periodInSeconds: 13, phase: 3.3 },
-    { color: CORAL, x: 50, y: 96, w: 54, h: 34, alpha: 0.06, drift: 1.2, periodInSeconds: 10, phase: 5 },
+    {
+      color: CORAL,
+      x: 82,
+      y: 78,
+      w: 62,
+      h: 58,
+      alpha: 0.135,
+      drift: 1.6,
+      periodInSeconds: 12,
+      phase: 1,
+    },
+    {
+      color: BLUE,
+      x: 16,
+      y: 22,
+      w: 56,
+      h: 50,
+      alpha: 0.1,
+      drift: 1.4,
+      periodInSeconds: 13,
+      phase: 3.3,
+    },
+    {
+      color: CORAL,
+      x: 50,
+      y: 96,
+      w: 54,
+      h: 34,
+      alpha: 0.06,
+      drift: 1.2,
+      periodInSeconds: 10,
+      phase: 5,
+    },
   ],
 
   /**
@@ -67,9 +168,39 @@ export const GLOW_PRESETS = {
    * blanc de la scène 10 les effacerait, et le CTA doit rester net.
    */
   focus: [
-    { color: BLUE, x: 24, y: 28, w: 54, h: 50, alpha: 0.13, drift: 1.2, periodInSeconds: 12, phase: 0 },
-    { color: CORAL, x: 78, y: 76, w: 52, h: 48, alpha: 0.115, drift: 1.3, periodInSeconds: 14, phase: 2.2 },
-    { color: BLUE, x: 72, y: 18, w: 40, h: 36, alpha: 0.05, drift: 1, periodInSeconds: 10, phase: 4 },
+    {
+      color: BLUE,
+      x: 24,
+      y: 28,
+      w: 54,
+      h: 50,
+      alpha: 0.13,
+      drift: 1.2,
+      periodInSeconds: 12,
+      phase: 0,
+    },
+    {
+      color: CORAL,
+      x: 78,
+      y: 76,
+      w: 52,
+      h: 48,
+      alpha: 0.115,
+      drift: 1.3,
+      periodInSeconds: 14,
+      phase: 2.2,
+    },
+    {
+      color: BLUE,
+      x: 72,
+      y: 18,
+      w: 40,
+      h: 36,
+      alpha: 0.05,
+      drift: 1,
+      periodInSeconds: 10,
+      phase: 4,
+    },
   ],
 } satisfies Record<string, Glow[]>;
 
@@ -87,7 +218,8 @@ export const GlowBackground: React.FC<{ preset?: GlowPreset }> = ({
       {GLOW_PRESETS[preset].map((glow, i) => {
         const angle = (t / glow.periodInSeconds) * Math.PI * 2 + glow.phase;
         // Période différente en Y : la trajectoire ne se referme pas.
-        const angleY = (t / (glow.periodInSeconds * 1.31)) * Math.PI * 2 + glow.phase;
+        const angleY =
+          (t / (glow.periodInSeconds * 1.31)) * Math.PI * 2 + glow.phase;
 
         const x = glow.x + Math.sin(angle) * glow.drift;
         const y = glow.y + Math.cos(angleY) * glow.drift * 0.8;

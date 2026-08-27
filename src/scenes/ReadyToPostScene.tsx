@@ -14,7 +14,15 @@ import { Outro } from "../components/Outro";
 import { ShortsBoard } from "../components/ShortsBoard";
 import { COLORS, fontFamily } from "../theme";
 import { AnalysisStrip } from "./AiClippingScene";
-import { APP, BOARD_ASSETS, BOARD_HANDOVER } from "./story";
+import {
+  APP,
+  BOARD_ASSETS,
+  BOARD_HANDOVER,
+  BRAND,
+  BOARD_SHORTS,
+  BOARD_STATUS,
+  BOARD_WIDTH,
+} from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 7 — "Prêt à poster."  (0:23 → 0:26,5)
@@ -86,7 +94,8 @@ export const ReadyToPostScene: React.FC = () => {
             <AppWindow
               width={APP.windowWidth}
               height={APP.windowHeight}
-              label="remakeit.io"
+              label={BRAND.domain}
+              brand={BRAND.name}
             />
           </div>
         </AbsoluteFill>
@@ -114,7 +123,13 @@ export const ReadyToPostScene: React.FC = () => {
         curves={CAMERA.curves}
         driftY={0}
       >
-        <ShortsBoard shortsStartInSeconds={BOARD_HANDOVER.shortsScene7} />
+        <ShortsBoard
+          shorts={BOARD_SHORTS}
+          width={BOARD_WIDTH}
+          statusPending={BOARD_STATUS.pending}
+          statusDone={BOARD_STATUS.done}
+          shortsStartInSeconds={BOARD_HANDOVER.shortsScene7}
+        />
       </CameraMovement>
 
       <CameraMovement

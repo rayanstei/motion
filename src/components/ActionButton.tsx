@@ -1,4 +1,4 @@
-import { COLORS, SHADOWS } from "../theme";
+import { COLORS, SHADOWS, TINTS } from "../theme";
 
 /**
  * Bouton d'action bleu, même langage que celui de la carte vidéo.
@@ -19,7 +19,11 @@ export const ActionButton: React.FC<{
         padding: fontSize * 0.7 + "px " + fontSize * 1.1 + "px",
         borderRadius: fontSize * 0.7,
         background:
-          "linear-gradient(180deg, #4A80FF 0%, " + COLORS.blue + " 100%)",
+          "linear-gradient(180deg, " +
+          TINTS.buttonTop +
+          " 0%, " +
+          COLORS.blue +
+          " 100%)",
         color: COLORS.white,
         fontSize,
         fontWeight: 600,

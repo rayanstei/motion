@@ -12,7 +12,7 @@ import { GridBackground } from "../components/GridBackground";
 import { TimeCounter } from "../components/TimeCounter";
 import { VideoCard } from "../components/VideoCard";
 import { COLORS, DOF, fontFamily } from "../theme";
-import { SCENE3_TRACKS, SOURCE_VIDEO, STAGE } from "./story";
+import { EDITOR_UI, SCENE3_TRACKS, SOURCE_VIDEO, STAGE } from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 3 — "Et vous n'avez pas le temps."  (0:07 → 0:10)
@@ -133,6 +133,9 @@ export const NoTimeScene: React.FC = () => {
               width={STAGE.panelWidth}
               height={STAGE.panelHeight}
               tracks={SCENE3_TRACKS}
+              appName={EDITOR_UI.appName}
+              fileName={EDITOR_UI.fileName}
+              tools={EDITOR_UI.tools}
               playhead={(0.8 + chaos * 2.4) % 1}
             />
           </div>

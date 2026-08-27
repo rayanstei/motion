@@ -11,7 +11,12 @@ import { GridBackground } from "../components/GridBackground";
 import { Outro } from "../components/Outro";
 import { ShortsBoard } from "../components/ShortsBoard";
 import { COLORS, fontFamily } from "../theme";
-import { BOARD_HANDOVER } from "./story";
+import {
+  BOARD_HANDOVER,
+  BOARD_SHORTS,
+  BOARD_STATUS,
+  BOARD_WIDTH,
+} from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 9 — "Pas de montage. Pas de compétences."  (0:30 → 0:33)
@@ -66,6 +71,10 @@ export const NoSkillsScene: React.FC = () => {
           }}
         >
           <ShortsBoard
+            shorts={BOARD_SHORTS}
+            width={BOARD_WIDTH}
+            statusPending={BOARD_STATUS.pending}
+            statusDone={BOARD_STATUS.done}
             shortsStartInSeconds={BOARD_HANDOVER.shortsScene9}
             publishStartInSeconds={BOARD_HANDOVER.publishScene9}
           />

@@ -1,5 +1,5 @@
 import { Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, SHADOWS, SURFACE } from "../theme";
+import { COLORS, SHADOWS, SURFACE, TINTS } from "../theme";
 
 /**
  * Carte "vidéo YouTube" : miniature 16:9 + UI crédible (durée, progression,
@@ -16,6 +16,8 @@ export const VideoCard: React.FC<{
   clickAtInSeconds: number;
   /** false pour une carte de contenu simple, sans appel à l'action. */
   showAction?: boolean;
+  /** Texte du bouton. Requis dès que `showAction` est vrai. */
+  actionLabel?: string;
 }> = ({
   width,
   title,
@@ -24,6 +26,7 @@ export const VideoCard: React.FC<{
   duration,
   clickAtInSeconds,
   showAction = true,
+  actionLabel,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -49,7 +52,13 @@ export const VideoCard: React.FC<{
           borderRadius: 20,
           overflow: "hidden",
           background:
-            "linear-gradient(135deg, #131B2E 0%, #1E2C4D 48%, #24365C 100%)",
+            "linear-gradient(135deg, " +
+            TINTS.thumbVideo[0] +
+            " 0%, " +
+            TINTS.thumbVideo[1] +
+            " 48%, " +
+            TINTS.thumbVideo[2] +
+            " 100%)",
         }}
       >
         <div
@@ -203,7 +212,12 @@ export const VideoCard: React.FC<{
             height: 46,
             borderRadius: 23,
             flexShrink: 0,
-            background: "linear-gradient(135deg, #2F6BFF 0%, #7AA0FF 100%)",
+            background:
+              "linear-gradient(135deg, " +
+              TINTS.avatarFrom +
+              " 0%, " +
+              TINTS.avatarTo +
+              " 100%)",
           }}
         />
 
@@ -272,7 +286,7 @@ export const VideoCard: React.FC<{
                 backgroundColor: "rgba(255,255,255,0.85)",
               }}
             />
-            Générer les shorts
+            {actionLabel}
           </div>
         ) : null}
       </div>

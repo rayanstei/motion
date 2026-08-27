@@ -24,6 +24,41 @@ export const COLORS = {
 };
 
 /**
+ * ── Teintes de surface ───────────────────────────────────────────
+ * Les gris et dégradés qui composent les interfaces. Ils font partie de
+ * l'identité au même titre que les couleurs d'accent : c'est ici qu'on
+ * change l'ambiance d'un client à l'autre, pas dans les composants.
+ */
+export const TINTS = {
+  /** Fond des pistes et des zones creuses. */
+  lane: "#F3F5FA",
+  /** Barre de titre d'une fenêtre applicative. */
+  chromeTop: "#FCFDFF",
+  chromeBottom: "#F7F9FC",
+  chromeDot: "#E2E6EE",
+  /** Dégradé d'avatar. */
+  avatarFrom: "#2F6BFF",
+  avatarTo: "#7AA0FF",
+  /** Haut du dégradé du bouton d'action. */
+  buttonTop: "#4A80FF",
+  /** Miniature vidéo 16:9, du plus sombre au plus clair. */
+  thumbVideo: ["#131B2E", "#1E2C4D", "#24365C"],
+  /** Miniature de short 9:16. */
+  thumbShort: ["#16203A", "#1C2A4B"],
+};
+
+/**
+ * Convertit un hex du thème en triplet "r,g,b", pour les endroits qui ont
+ * besoin de moduler l'alpha (les halos, notamment).
+ */
+export const rgbOf = (hex: string) =>
+  [
+    parseInt(hex.slice(1, 3), 16),
+    parseInt(hex.slice(3, 5), 16),
+    parseInt(hex.slice(5, 7), 16),
+  ].join(",");
+
+/**
  * ── Élévation ────────────────────────────────────────────────────
  * Trois niveaux, un seul principe : chaque couche double son flou et
  * perd un peu d'opacité. La première est une ombre de contact très

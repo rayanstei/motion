@@ -11,7 +11,12 @@ import { CameraMovement } from "../components/CameraMovement";
 import { GridBackground } from "../components/GridBackground";
 import { ShortsBoard } from "../components/ShortsBoard";
 import { COLORS, fontFamily } from "../theme";
-import { BOARD_HANDOVER } from "./story";
+import {
+  BOARD_HANDOVER,
+  BOARD_SHORTS,
+  BOARD_STATUS,
+  BOARD_WIDTH,
+} from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 10 — Appel à l'action  (0:33 → 0:37)
@@ -70,6 +75,10 @@ export const CtaScene: React.FC = () => {
           }}
         >
           <ShortsBoard
+            shorts={BOARD_SHORTS}
+            width={BOARD_WIDTH}
+            statusPending={BOARD_STATUS.pending}
+            statusDone={BOARD_STATUS.done}
             shortsStartInSeconds={BOARD_HANDOVER.shortsScene10}
             publishStartInSeconds={BOARD_HANDOVER.publishScene10}
           />

@@ -1,5 +1,6 @@
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
 import { GlowBackground, GlowPreset } from "./GlowBackground";
+import { COLORS } from "../theme";
 
 /**
  * Fond blanc cassé + grille très discrète + halos lumineux.
@@ -15,7 +16,7 @@ export const GridBackground: React.FC<{ glow?: GlowPreset }> = ({
 
   return (
     <AbsoluteFill name="Background">
-      <AbsoluteFill style={{ backgroundColor: "#FBFBFD" }} />
+      <AbsoluteFill style={{ backgroundColor: COLORS.bg }} />
 
       <AbsoluteFill
         name="Grid"

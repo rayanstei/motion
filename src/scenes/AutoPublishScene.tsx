@@ -6,7 +6,13 @@ import { GridBackground } from "../components/GridBackground";
 import { Outro } from "../components/Outro";
 import { ShortsBoard } from "../components/ShortsBoard";
 import { COLORS, fontFamily } from "../theme";
-import { BOARD_ASSETS, BOARD_HANDOVER } from "./story";
+import {
+  BOARD_ASSETS,
+  BOARD_HANDOVER,
+  BOARD_SHORTS,
+  BOARD_STATUS,
+  BOARD_WIDTH,
+} from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 8 — "Publication automatique."  (0:26,5 → 0:30)
@@ -53,6 +59,10 @@ export const AutoPublishScene: React.FC = () => {
         driftY={0}
       >
         <ShortsBoard
+          shorts={BOARD_SHORTS}
+          width={BOARD_WIDTH}
+          statusPending={BOARD_STATUS.pending}
+          statusDone={BOARD_STATUS.done}
           shortsStartInSeconds={BOARD_HANDOVER.shortsScene8}
           publishStartInSeconds={BOARD_HANDOVER.publishScene8}
         />

@@ -1,5 +1,5 @@
 import { Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, EASE, SHADOWS, SURFACE } from "../theme";
+import { COLORS, EASE, SHADOWS, SURFACE, TINTS } from "../theme";
 
 export type TimelineClip = {
   /** Début, en fraction de la largeur des pistes (0 → 1). */
@@ -38,7 +38,13 @@ export const EditorTimeline: React.FC<{
   tracks: TimelineTrack[];
   /** Position du curseur de lecture, de 0 à 1. */
   playhead: number;
-}> = ({ width, height, tracks, playhead }) => {
+  /** Nom du logiciel affiché dans l'en-tête. */
+  appName: string;
+  /** Fichier ouvert. */
+  fileName: string;
+  /** Boutons de la barre d'outils. */
+  tools: string[];
+}> = ({ width, height, tracks, playhead, appName, fileName, tools }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -88,14 +94,14 @@ export const EditorTimeline: React.FC<{
             letterSpacing: -0.2,
           }}
         >
-          Montage
+          {appName}
         </div>
         <div style={{ fontSize: 15, fontWeight: 500, color: COLORS.muted }}>
-          projet-b2b.mp4
+          {fileName}
         </div>
 
         <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
-          {["Couper", "Titre", "Export"].map((tool) => (
+          {tools.map((tool) => (
             <div
               key={tool}
               style={{
@@ -190,7 +196,7 @@ export const EditorTimeline: React.FC<{
               width: laneWidth,
               height: laneHeight,
               borderRadius: 10,
-              backgroundColor: "#F3F5FA",
+              backgroundColor: TINTS.lane,
             }}
           >
             {track.clips.map((clip) => (

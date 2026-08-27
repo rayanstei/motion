@@ -8,59 +8,33 @@ import {
 import { ShortCard, ShortSpec } from "./ShortCard";
 import { COLORS, EASE, SHADOWS, SURFACE } from "../theme";
 
-/**
- * Le trio de shorts, avec sa géométrie figée une bonne fois pour toutes.
- * Les scènes 6 à 10 réutilisent ce même plateau : c'est ce qui rend les
- * raccords invisibles d'une scène à l'autre.
- */
-export const BOARD_WIDTH = 200;
-
-export const BOARD_SHORTS: ShortSpec[] = [
-  {
-    x: -256,
-    y: 40,
-    rotate: -2.5,
-    scale: 1,
-    delayInSeconds: 0,
-    label: "Le hook",
-    duration: "0:34",
-    accent: COLORS.blue,
-  },
-  {
-    x: 0,
-    y: 22,
-    rotate: 0.5,
-    scale: 1.04,
-    delayInSeconds: 0.35,
-    label: "L'astuce",
-    duration: "0:28",
-    accent: COLORS.coral,
-  },
-  {
-    x: 256,
-    y: 46,
-    rotate: 2.5,
-    scale: 0.98,
-    delayInSeconds: 0.7,
-    label: "La preuve",
-    duration: "0:41",
-    accent: COLORS.green,
-  },
-];
-
 export const ShortsBoard: React.FC<{
+  /** Les cartes à disposer : position, libellé, durée, accent. */
+  shorts: ShortSpec[];
+  /** Largeur d'une carte, en px. */
+  width: number;
   /** Instant où le premier short sort (les autres suivent en stagger). */
   shortsStartInSeconds: number;
   /** Instant où les pastilles de publication démarrent. Absent = pas de pastilles. */
   publishStartInSeconds?: number;
-}> = ({ shortsStartInSeconds, publishStartInSeconds }) => {
+  /** Libellés d'état des pastilles. */
+  statusPending?: string;
+  statusDone?: string;
+}> = ({
+  shorts,
+  width,
+  shortsStartInSeconds,
+  publishStartInSeconds,
+  statusPending = "",
+  statusDone = "",
+}) => {
   return (
     <AbsoluteFill>
-      {BOARD_SHORTS.map((short, i) => (
+      {shorts.map((short, i) => (
         <ShortCard
           key={short.label}
           {...short}
-          width={BOARD_WIDTH}
+          width={width}
           startInSeconds={shortsStartInSeconds}
           floatPhase={i * 1.7}
         />
@@ -68,12 +42,14 @@ export const ShortsBoard: React.FC<{
 
       {publishStartInSeconds === undefined
         ? null
-        : BOARD_SHORTS.map((short, i) => (
+        : shorts.map((short, i) => (
             <PublishPill
               key={short.label}
               x={short.x}
               accent={short.accent}
               atInSeconds={publishStartInSeconds + i * 0.22}
+              pendingLabel={statusPending}
+              doneLabel={statusDone}
             />
           ))}
     </AbsoluteFill>
@@ -85,7 +61,9 @@ const PublishPill: React.FC<{
   x: number;
   accent: string;
   atInSeconds: number;
-}> = ({ x, accent, atInSeconds }) => {
+  pendingLabel: string;
+  doneLabel: string;
+}> = ({ x, accent, atInSeconds, pendingLabel, doneLabel }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -179,7 +157,7 @@ const PublishPill: React.FC<{
             color: done ? COLORS.ink : COLORS.muted,
           }}
         >
-          {done ? "Publié" : "Envoi…"}
+          {done ? doneLabel : pendingLabel}
         </div>
       </div>
     </AbsoluteFill>

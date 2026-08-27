@@ -1,5 +1,6 @@
 import { TimelineTrack } from "../components/EditorTimeline";
 import { FloatingAssetSpec } from "../components/FloatingAsset";
+import { ShortSpec } from "../components/ShortCard";
 import { COLORS } from "../theme";
 
 /**
@@ -273,3 +274,59 @@ export const BOARD_ASSETS: FloatingAssetSpec[] = [
     color: COLORS.green,
   },
 ];
+
+/**
+ * Le trio de shorts : géométrie, libellés et durées.
+ * Partagé par les scènes 6 à 10 — c'est ce qui rend les raccords invisibles.
+ */
+export const BOARD_WIDTH = 200;
+
+export const BOARD_SHORTS: ShortSpec[] = [
+  {
+    x: -256,
+    y: 40,
+    rotate: -2.5,
+    scale: 1,
+    delayInSeconds: 0,
+    label: "Le hook",
+    duration: "0:34",
+    accent: COLORS.blue,
+  },
+  {
+    x: 0,
+    y: 22,
+    rotate: 0.5,
+    scale: 1.04,
+    delayInSeconds: 0.35,
+    label: "L'astuce",
+    duration: "0:28",
+    accent: COLORS.coral,
+  },
+  {
+    x: 256,
+    y: 46,
+    rotate: 2.5,
+    scale: 0.98,
+    delayInSeconds: 0.7,
+    label: "La preuve",
+    duration: "0:41",
+    accent: COLORS.green,
+  },
+];
+
+/** États affichés par les pastilles de publication. */
+export const BOARD_STATUS = { pending: "Envoi…", done: "Publié" };
+
+/** Identité produit affichée dans les interfaces. */
+export const BRAND = {
+  name: "remakeit",
+  domain: "remakeit.io",
+  primaryAction: "Générer les shorts",
+};
+
+/** Le logiciel de montage des scènes 2 et 3 — volontairement générique. */
+export const EDITOR_UI = {
+  appName: "Montage",
+  fileName: "projet-b2b.mp4",
+  tools: ["Couper", "Titre", "Export"],
+};

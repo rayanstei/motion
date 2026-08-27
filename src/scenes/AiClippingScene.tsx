@@ -13,8 +13,17 @@ import { Outro } from "../components/Outro";
 import { Levitate } from "../components/Levitate";
 import { VideoCard } from "../components/VideoCard";
 import { COLORS, SHADOWS, SURFACE, fontFamily } from "../theme";
-import { BOARD_SHORTS, ShortsBoard } from "../components/ShortsBoard";
-import { APP, BOARD_HANDOVER, SOURCE_VIDEO, STAGE } from "./story";
+import { ShortsBoard } from "../components/ShortsBoard";
+import {
+  APP,
+  BOARD_HANDOVER,
+  BRAND,
+  BOARD_SHORTS,
+  BOARD_STATUS,
+  BOARD_WIDTH,
+  SOURCE_VIDEO,
+  STAGE,
+} from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 6 — "L'IA crée votre vidéo"  (0:19 → 0:23)
@@ -88,7 +97,8 @@ export const AiClippingScene: React.FC = () => {
             <AppWindow
               width={APP.windowWidth}
               height={APP.windowHeight}
-              label="remakeit.io"
+              label={BRAND.domain}
+              brand={BRAND.name}
             />
           </AbsoluteFill>
 
@@ -153,7 +163,13 @@ export const AiClippingScene: React.FC = () => {
         curves={CAMERA.curves}
         driftY={0}
       >
-        <ShortsBoard shortsStartInSeconds={BOARD_HANDOVER.shortsScene6} />
+        <ShortsBoard
+          shorts={BOARD_SHORTS}
+          width={BOARD_WIDTH}
+          statusPending={BOARD_STATUS.pending}
+          statusDone={BOARD_STATUS.done}
+          shortsStartInSeconds={BOARD_HANDOVER.shortsScene6}
+        />
       </CameraMovement>
 
       <CameraMovement

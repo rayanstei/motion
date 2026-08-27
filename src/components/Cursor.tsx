@@ -190,7 +190,7 @@ export const Cursor: React.FC<{
           <path
             d="M2 2 L2 27 L9 20.5 L13.5 30.5 L18.5 28 L14 18.5 L23 18 Z"
             fill={COLORS.ink}
-            stroke="#FFFFFF"
+            stroke={COLORS.white}
             strokeWidth={2}
             strokeLinejoin="round"
           />
