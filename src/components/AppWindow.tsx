@@ -1,4 +1,4 @@
-import { COLORS, SHADOWS } from "../theme";
+import { COLORS, SHADOWS, SURFACE } from "../theme";
 
 /**
  * Fenêtre d'application : uniquement le châssis (barre de titre + cadre).
@@ -18,8 +18,8 @@ export const AppWindow: React.FC<{
         height,
         borderRadius: 28,
         backgroundColor: COLORS.white,
-        border: "1px solid " + COLORS.line,
-        boxShadow: SHADOWS.card + ", inset 0 1px 0 rgba(255,255,255,0.9)",
+        border: SURFACE.border,
+        boxShadow: SHADOWS.card + ", " + SURFACE.rim,
         overflow: "hidden",
       }}
     >
@@ -39,9 +39,30 @@ export const AppWindow: React.FC<{
           borderBottom: "1px solid " + COLORS.line,
         }}
       >
-        <div style={{ width: 11, height: 11, borderRadius: 6, backgroundColor: "#E2E6EE" }} />
-        <div style={{ width: 11, height: 11, borderRadius: 6, backgroundColor: "#E2E6EE" }} />
-        <div style={{ width: 11, height: 11, borderRadius: 6, backgroundColor: "#E2E6EE" }} />
+        <div
+          style={{
+            width: 11,
+            height: 11,
+            borderRadius: 6,
+            backgroundColor: "#E2E6EE",
+          }}
+        />
+        <div
+          style={{
+            width: 11,
+            height: 11,
+            borderRadius: 6,
+            backgroundColor: "#E2E6EE",
+          }}
+        />
+        <div
+          style={{
+            width: 11,
+            height: 11,
+            borderRadius: 6,
+            backgroundColor: "#E2E6EE",
+          }}
+        />
 
         <div
           style={{
@@ -78,7 +99,14 @@ export const AppWindow: React.FC<{
               strokeWidth={1.5}
               strokeLinecap="round"
             />
-            <rect x={1} y={5.4} width={9} height={6.6} rx={1.8} fill={COLORS.muted} />
+            <rect
+              x={1}
+              y={5.4}
+              width={9}
+              height={6.6}
+              rx={1.8}
+              fill={COLORS.muted}
+            />
           </svg>
           {label}
         </div>

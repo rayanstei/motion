@@ -8,6 +8,7 @@ import {
 import { AnimatedText } from "../components/AnimatedText";
 import { CameraMovement } from "../components/CameraMovement";
 import { GridBackground } from "../components/GridBackground";
+import { Outro } from "../components/Outro";
 import { ShortsBoard } from "../components/ShortsBoard";
 import { COLORS, fontFamily } from "../theme";
 import { BOARD_HANDOVER } from "./story";
@@ -78,21 +79,23 @@ export const NoSkillsScene: React.FC = () => {
         curves={CAMERA.curves}
         driftY={0}
       >
-        <AbsoluteFill style={{ paddingTop: 140 }}>
-          <AnimatedText
-            fontSize={HEADLINE.fontSize}
-            gap={HEADLINE.gap}
-            words={[
-              { text: "Pas", atInSeconds: 0.3 },
-              { text: "de", atInSeconds: 0.37 },
-              { text: "montage.", atInSeconds: 0.44, highlight: true },
-              // Micro-pause avant la seconde moitié : c'est elle qui porte.
-              { text: "Pas", atInSeconds: 0.82 },
-              { text: "de", atInSeconds: 0.89 },
-              { text: "compétences.", atInSeconds: 0.96 },
-            ]}
-          />
-        </AbsoluteFill>
+        <Outro atInSeconds={2.6}>
+          <AbsoluteFill style={{ paddingTop: 140 }}>
+            <AnimatedText
+              fontSize={HEADLINE.fontSize}
+              gap={HEADLINE.gap}
+              words={[
+                { text: "Pas", atInSeconds: 0.3 },
+                { text: "de", atInSeconds: 0.37 },
+                { text: "montage.", atInSeconds: 0.44, highlight: true },
+                // Micro-pause avant la seconde moitié : c'est elle qui porte.
+                { text: "Pas", atInSeconds: 0.82 },
+                { text: "de", atInSeconds: 0.89 },
+                { text: "compétences.", atInSeconds: 0.96 },
+              ]}
+            />
+          </AbsoluteFill>
+        </Outro>
       </CameraMovement>
     </AbsoluteFill>
   );

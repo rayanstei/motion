@@ -18,7 +18,8 @@ export const ActionButton: React.FC<{
         gap: fontSize * 0.45,
         padding: fontSize * 0.7 + "px " + fontSize * 1.1 + "px",
         borderRadius: fontSize * 0.7,
-        background: "linear-gradient(180deg, #4A80FF 0%, " + COLORS.blue + " 100%)",
+        background:
+          "linear-gradient(180deg, #4A80FF 0%, " + COLORS.blue + " 100%)",
         color: COLORS.white,
         fontSize,
         fontWeight: 600,

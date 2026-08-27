@@ -1,5 +1,5 @@
 import { Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, SHADOWS } from "../theme";
+import { COLORS, EASE, SHADOWS, SURFACE } from "../theme";
 
 export type TimelineClip = {
   /** Début, en fraction de la largeur des pistes (0 → 1). */
@@ -55,8 +55,8 @@ export const EditorTimeline: React.FC<{
         height,
         borderRadius: 26,
         backgroundColor: COLORS.white,
-        border: "1px solid " + COLORS.line,
-        boxShadow: SHADOWS.card,
+        border: SURFACE.border,
+        boxShadow: SHADOWS.card + ", " + SURFACE.rim,
         overflow: "hidden",
       }}
     >
@@ -73,9 +73,21 @@ export const EditorTimeline: React.FC<{
         }}
       >
         <div
-          style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: COLORS.blue }}
+          style={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            backgroundColor: COLORS.blue,
+          }}
         />
-        <div style={{ fontSize: 17, fontWeight: 700, color: COLORS.ink, letterSpacing: -0.2 }}>
+        <div
+          style={{
+            fontSize: 17,
+            fontWeight: 700,
+            color: COLORS.ink,
+            letterSpacing: -0.2,
+          }}
+        >
           Montage
         </div>
         <div style={{ fontSize: 15, fontWeight: 500, color: COLORS.muted }}>
@@ -163,7 +175,9 @@ export const EditorTimeline: React.FC<{
                 backgroundColor: track.color,
               }}
             />
-            <div style={{ fontSize: 13, fontWeight: 600, color: COLORS.inkSoft }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 600, color: COLORS.inkSoft }}
+            >
               {track.label}
             </div>
           </div>
@@ -194,6 +208,21 @@ export const EditorTimeline: React.FC<{
                     extrapolateLeft: "clamp",
                     extrapolateRight: "clamp",
                     easing: Easing.bezier(0.16, 1, 0.3, 1),
+                  },
+                )}
+                pop={interpolate(
+                  frame,
+                  [clip.atInSeconds * fps, (clip.atInSeconds + 0.32) * fps],
+                  [0, 1],
+                  {
+                    extrapolateLeft: "clamp",
+                    extrapolateRight: "clamp",
+                    easing: Easing.bezier(
+                      EASE.pop[0],
+                      EASE.pop[1],
+                      EASE.pop[2],
+                      EASE.pop[3],
+                    ),
                   },
                 )}
               />
@@ -237,7 +266,9 @@ const Clip: React.FC<{
   laneWidth: number;
   laneHeight: number;
   appear: number;
-}> = ({ clip, track, laneWidth, laneHeight, appear }) => {
+  /** Même progression, avec dépassement : le clip se pose. */
+  pop: number;
+}> = ({ clip, track, laneWidth, laneHeight, appear, pop }) => {
   const clipWidth = clip.width * laneWidth;
   const isCaption = track.kind === "caption";
   const height = isCaption ? laneHeight - 14 : laneHeight - 6;
@@ -254,13 +285,17 @@ const Clip: React.FC<{
         overflow: "hidden",
         background: isCaption
           ? "rgba(47,107,255,0.10)"
-          : "linear-gradient(180deg, " + track.color + "F2 0%, " + track.color + "CC 100%)",
+          : "linear-gradient(180deg, " +
+            track.color +
+            "F2 0%, " +
+            track.color +
+            "CC 100%)",
         border: isCaption ? "1px solid rgba(47,107,255,0.25)" : "none",
         boxShadow: isCaption
           ? "none"
           : "0 2px 6px rgba(11,18,32,0.10), inset 0 1px 0 rgba(255,255,255,0.35)",
         opacity: appear,
-        scale: 0.86 + appear * 0.14,
+        scale: 0.86 + pop * 0.14,
         translate: "0px " + (1 - appear) * 9 + "px",
       }}
     >
@@ -276,17 +311,22 @@ const Clip: React.FC<{
             paddingRight: 6,
           }}
         >
-          {new Array(Math.max(1, Math.floor((clipWidth - 12) / 6))).fill(0).map((_, bar) => (
-            <div
-              key={bar}
-              style={{
-                width: 3,
-                height: (0.28 + 0.62 * Math.abs(Math.sin(bar * 1.9 + clip.start * 31))) * height,
-                borderRadius: 2,
-                backgroundColor: "rgba(255,255,255,0.72)",
-              }}
-            />
-          ))}
+          {new Array(Math.max(1, Math.floor((clipWidth - 12) / 6)))
+            .fill(0)
+            .map((_, bar) => (
+              <div
+                key={bar}
+                style={{
+                  width: 3,
+                  height:
+                    (0.28 +
+                      0.62 * Math.abs(Math.sin(bar * 1.9 + clip.start * 31))) *
+                    height,
+                  borderRadius: 2,
+                  backgroundColor: "rgba(255,255,255,0.72)",
+                }}
+              />
+            ))}
         </div>
       ) : null}
 

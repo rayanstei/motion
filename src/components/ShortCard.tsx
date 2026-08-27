@@ -1,5 +1,5 @@
 import { Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, SHADOWS } from "../theme";
+import { COLORS, DOF, SHADOWS, SURFACE } from "../theme";
 
 export type ShortSpec = {
   /** Position finale, en px, relative au centre de la composition. */
@@ -82,7 +82,7 @@ export const ShortCard: React.FC<
         borderRadius: 22,
         overflow: "hidden",
         backgroundColor: COLORS.white,
-        border: "1px solid rgba(255,255,255,0.9)",
+        border: "1px solid rgba(255,255,255,0.55)",
         boxShadow: SHADOWS.short,
         opacity: interpolate(local, [0, 0.3 * fps], [0, 1], {
           extrapolateLeft: "clamp",
@@ -91,11 +91,13 @@ export const ShortCard: React.FC<
         }),
         filter:
           "blur(" +
-          interpolate(local, [0, 0.55 * fps], [14, 0], {
+          (interpolate(local, [0, 0.55 * fps], [14, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.bezier(0.2, 0, 0.1, 1),
           }) +
+            // Une carte réduite est en retrait : elle perd un cheveu de netteté.
+            DOF.fromScale(scale, 0.4)) +
           "px)",
         translate: x * spreadX + "px " + (y * spreadY + float) + "px",
         scale: interpolate(local, [0, 1.0 * fps], [0.3, scale], {
@@ -119,7 +121,9 @@ export const ShortCard: React.FC<
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(150deg, #16203A 0%, #1C2A4B 55%, " + accent + " 190%)",
+            "linear-gradient(150deg, #16203A 0%, #1C2A4B 55%, " +
+            accent +
+            " 190%)",
         }}
       />
 
@@ -245,6 +249,16 @@ export const ShortCard: React.FC<
           />
         </div>
       </div>
+
+      {/* Liseré de verre sur l'arête haute. */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: 22,
+          boxShadow: SURFACE.darkRim,
+        }}
+      />
     </div>
   );
 };

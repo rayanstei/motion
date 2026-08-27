@@ -6,7 +6,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { ShortCard, ShortSpec } from "./ShortCard";
-import { COLORS, SHADOWS } from "../theme";
+import { COLORS, EASE, SHADOWS, SURFACE } from "../theme";
 
 /**
  * Le trio de shorts, avec sa géométrie figée une bonne fois pour toutes.
@@ -81,11 +81,11 @@ export const ShortsBoard: React.FC<{
 };
 
 /** Pastille d'état sous un short : envoi en cours, puis publié. */
-const PublishPill: React.FC<{ x: number; accent: string; atInSeconds: number }> = ({
-  x,
-  accent,
-  atInSeconds,
-}) => {
+const PublishPill: React.FC<{
+  x: number;
+  accent: string;
+  atInSeconds: number;
+}> = ({ x, accent, atInSeconds }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -105,6 +105,13 @@ const PublishPill: React.FC<{ x: number; accent: string; atInSeconds: number }> 
 
   const done = progress >= 1;
 
+  // Dépassement discret : la pastille se pose au lieu de s'arrêter net.
+  const pop = interpolate(frame, [at - 0.2 * fps, at + 0.1 * fps], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.bezier(EASE.pop[0], EASE.pop[1], EASE.pop[2], EASE.pop[3]),
+  });
+
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
       <div
@@ -115,15 +122,31 @@ const PublishPill: React.FC<{ x: number; accent: string; atInSeconds: number }> 
           padding: "10px 16px",
           borderRadius: 13,
           backgroundColor: COLORS.white,
-          border: "1px solid " + COLORS.line,
-          boxShadow: SHADOWS.short,
+          border: SURFACE.border,
+          boxShadow: SHADOWS.pill + ", " + SURFACE.rim,
           opacity: appear,
-          translate: x + "px " + (252 + (1 - appear) * 14) + "px",
-          scale: 0.9 + appear * 0.1,
+          // Les shorts flottent déjà : la pastille suit, avec sa propre phase.
+          translate:
+            x +
+            "px " +
+            (252 +
+              (1 - appear) * 14 +
+              Math.sin((frame / fps / 5.5) * Math.PI * 2 + x / 128) *
+                2 *
+                appear) +
+            "px",
+          scale: 0.9 + pop * 0.1,
         }}
       >
         <svg width={20} height={20} viewBox="0 0 20 20">
-          <circle cx={10} cy={10} r={8} fill="none" stroke={COLORS.line} strokeWidth={2.5} />
+          <circle
+            cx={10}
+            cy={10}
+            r={8}
+            fill="none"
+            stroke={COLORS.line}
+            strokeWidth={2.5}
+          />
           <circle
             cx={10}
             cy={10}

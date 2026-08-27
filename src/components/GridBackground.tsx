@@ -1,10 +1,16 @@
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
+import { GlowBackground, GlowPreset } from "./GlowBackground";
 
 /**
- * Fond blanc cassé + grille très discrète + gradients pastel subtils.
+ * Fond blanc cassé + grille très discrète + halos lumineux.
  * La grille dérive très lentement pour éviter une image morte.
+ *
+ * `glow` choisit la répartition des halos selon la composition de la scène.
+ * Sans rien passer, on garde celle d'origine.
  */
-export const GridBackground: React.FC = () => {
+export const GridBackground: React.FC<{ glow?: GlowPreset }> = ({
+  glow = "default",
+}) => {
   const frame = useCurrentFrame();
 
   return (
@@ -27,21 +33,7 @@ export const GridBackground: React.FC = () => {
         }}
       />
 
-      <AbsoluteFill
-        name="Halo bleu"
-        style={{
-          background:
-            "radial-gradient(58% 52% at 20% 16%, rgba(47,107,255,0.11) 0%, rgba(47,107,255,0) 70%)",
-        }}
-      />
-
-      <AbsoluteFill
-        name="Halo corail"
-        style={{
-          background:
-            "radial-gradient(54% 50% at 84% 86%, rgba(255,107,74,0.10) 0%, rgba(255,107,74,0) 70%)",
-        }}
-      />
+      <GlowBackground preset={glow} />
 
       <AbsoluteFill
         name="Vignette"

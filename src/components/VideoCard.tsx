@@ -1,5 +1,5 @@
 import { Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, SHADOWS } from "../theme";
+import { COLORS, SHADOWS, SURFACE } from "../theme";
 
 /**
  * Carte "vidéo YouTube" : miniature 16:9 + UI crédible (durée, progression,
@@ -16,7 +16,15 @@ export const VideoCard: React.FC<{
   clickAtInSeconds: number;
   /** false pour une carte de contenu simple, sans appel à l'action. */
   showAction?: boolean;
-}> = ({ width, title, channel, meta, duration, clickAtInSeconds, showAction = true }) => {
+}> = ({
+  width,
+  title,
+  channel,
+  meta,
+  duration,
+  clickAtInSeconds,
+  showAction = true,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -29,8 +37,8 @@ export const VideoCard: React.FC<{
         padding: 20,
         borderRadius: 30,
         backgroundColor: COLORS.white,
-        border: "1px solid " + COLORS.line,
-        boxShadow: SHADOWS.card,
+        border: SURFACE.border,
+        boxShadow: SHADOWS.card + ", " + SURFACE.rim,
       }}
     >
       <div
@@ -40,7 +48,8 @@ export const VideoCard: React.FC<{
           aspectRatio: "16 / 9",
           borderRadius: 20,
           overflow: "hidden",
-          background: "linear-gradient(135deg, #131B2E 0%, #1E2C4D 48%, #24365C 100%)",
+          background:
+            "linear-gradient(135deg, #131B2E 0%, #1E2C4D 48%, #24365C 100%)",
         }}
       >
         <div
@@ -137,7 +146,12 @@ export const VideoCard: React.FC<{
               "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(160,200,255,0.30) 55%, rgba(255,255,255,0) 100%)",
             opacity: interpolate(
               frame,
-              [click, click + 0.12 * fps, click + 0.7 * fps, click + 0.95 * fps],
+              [
+                click,
+                click + 0.12 * fps,
+                click + 0.7 * fps,
+                click + 0.95 * fps,
+              ],
               [0, 1, 1, 0],
               {
                 extrapolateLeft: "clamp",
@@ -159,6 +173,16 @@ export const VideoCard: React.FC<{
                 easing: Easing.bezier(0.45, 0, 0.35, 1),
               },
             ),
+          }}
+        />
+
+        {/* Liseré de verre sur l'arête haute de la miniature. */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: 20,
+            boxShadow: SURFACE.darkRim,
           }}
         />
       </div>
@@ -197,7 +221,14 @@ export const VideoCard: React.FC<{
           >
             {title}
           </div>
-          <div style={{ fontSize: 19, fontWeight: 500, color: COLORS.muted, marginTop: 4 }}>
+          <div
+            style={{
+              fontSize: 19,
+              fontWeight: 500,
+              color: COLORS.muted,
+              marginTop: 4,
+            }}
+          >
             {channel} · {meta}
           </div>
         </div>
@@ -224,7 +255,10 @@ export const VideoCard: React.FC<{
                 {
                   extrapolateLeft: "clamp",
                   extrapolateRight: "clamp",
-                  easing: [Easing.bezier(0.4, 0, 1, 1), Easing.bezier(0.34, 1.56, 0.64, 1)],
+                  easing: [
+                    Easing.bezier(0.4, 0, 1, 1),
+                    Easing.bezier(0.34, 1.56, 0.64, 1),
+                  ],
                   output: "perceptual-scale",
                 },
               ),

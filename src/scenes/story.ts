@@ -1,4 +1,5 @@
 import { TimelineTrack } from "../components/EditorTimeline";
+import { FloatingAssetSpec } from "../components/FloatingAsset";
 import { COLORS } from "../theme";
 
 /**
@@ -182,3 +183,93 @@ export const SCENE3_TRACKS: TimelineTrack[] = SCENE2_TRACKS.map((track, i) => ({
     ...SCENE3_EXTRA[i],
   ],
 }));
+
+/**
+ * Assets flottants. Pour une autre entreprise, c'est ce tableau que l'on
+ * remplace — le composant, lui, ne bouge pas.
+ */
+
+/** Scène 2 : la bande vide de part et d'autre du moniteur de montage. */
+export const SCENE2_ASSETS: FloatingAssetSpec[] = [
+  {
+    kind: "stat",
+    x: -540,
+    y: -235,
+    depth: 0.3,
+    atInSeconds: 0.6,
+    label: "Durée",
+    value: "47:52",
+    rotate: -2,
+  },
+  {
+    kind: "tile",
+    x: 520,
+    y: -245,
+    depth: 0.45,
+    atInSeconds: 0.85,
+    icon: "play",
+    rotate: 3,
+    floatPeriodInSeconds: 5.8,
+  },
+  {
+    kind: "pill",
+    x: -450,
+    y: -55,
+    depth: 0.55,
+    atInSeconds: 1.1,
+    label: "16:9",
+    color: COLORS.coral,
+    floatPeriodInSeconds: 7.4,
+  },
+  {
+    kind: "dot",
+    x: 640,
+    y: -75,
+    depth: 0.7,
+    atInSeconds: 1.4,
+    size: 14,
+    color: COLORS.green,
+  },
+];
+
+/** Scènes 7 et 8 : les flancs libres autour du trio de shorts. */
+export const BOARD_ASSETS: FloatingAssetSpec[] = [
+  {
+    kind: "tile",
+    x: -640,
+    y: -60,
+    depth: 0.4,
+    atInSeconds: 0.5,
+    icon: "play",
+    rotate: -4,
+  },
+  {
+    kind: "stat",
+    x: 625,
+    y: -95,
+    depth: 0.3,
+    atInSeconds: 0.7,
+    label: "Format",
+    value: "9:16",
+    rotate: 3,
+  },
+  {
+    kind: "pill",
+    x: -560,
+    y: 165,
+    depth: 0.6,
+    atInSeconds: 0.95,
+    label: "Vertical",
+    color: COLORS.coral,
+    floatPeriodInSeconds: 7.2,
+  },
+  {
+    kind: "dot",
+    x: 700,
+    y: 135,
+    depth: 0.75,
+    atInSeconds: 1.2,
+    size: 14,
+    color: COLORS.green,
+  },
+];

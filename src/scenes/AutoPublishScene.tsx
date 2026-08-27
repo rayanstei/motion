@@ -1,10 +1,12 @@
 import { AbsoluteFill } from "remotion";
 import { AnimatedText } from "../components/AnimatedText";
 import { CameraMovement } from "../components/CameraMovement";
+import { FloatingAssets } from "../components/FloatingAsset";
 import { GridBackground } from "../components/GridBackground";
+import { Outro } from "../components/Outro";
 import { ShortsBoard } from "../components/ShortsBoard";
 import { COLORS, fontFamily } from "../theme";
-import { BOARD_HANDOVER } from "./story";
+import { BOARD_ASSETS, BOARD_HANDOVER } from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 8 — "Publication automatique."  (0:26,5 → 0:30)
@@ -31,7 +33,17 @@ export const AutoPublishScene: React.FC = () => {
       name="Scène 8 — Publication"
       style={{ backgroundColor: COLORS.bg, fontFamily }}
     >
-      <GridBackground />
+      <GridBackground glow="wide" />
+
+      <CameraMovement
+        depth={0.9}
+        atInSeconds={CAMERA.atInSeconds}
+        zoom={CAMERA.zoom}
+        curves={CAMERA.curves}
+        driftY={0}
+      >
+        <FloatingAssets specs={BOARD_ASSETS} timeOffsetInSeconds={3.5} />
+      </CameraMovement>
 
       <CameraMovement
         depth={DEPTH.board}
@@ -53,16 +65,18 @@ export const AutoPublishScene: React.FC = () => {
         curves={CAMERA.curves}
         driftY={0}
       >
-        <AbsoluteFill style={{ paddingTop: 140 }}>
-          <AnimatedText
-            fontSize={HEADLINE.fontSize}
-            gap={HEADLINE.gap}
-            words={[
-              { text: "Publication", atInSeconds: 0.3 },
-              { text: "automatique.", atInSeconds: 0.4, highlight: true },
-            ]}
-          />
-        </AbsoluteFill>
+        <Outro atInSeconds={3.1}>
+          <AbsoluteFill style={{ paddingTop: 140 }}>
+            <AnimatedText
+              fontSize={HEADLINE.fontSize}
+              gap={HEADLINE.gap}
+              words={[
+                { text: "Publication", atInSeconds: 0.3 },
+                { text: "automatique.", atInSeconds: 0.4, highlight: true },
+              ]}
+            />
+          </AbsoluteFill>
+        </Outro>
       </CameraMovement>
     </AbsoluteFill>
   );

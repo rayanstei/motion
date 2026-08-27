@@ -51,13 +51,15 @@ export const CtaScene: React.FC = () => {
       name="Scène 10 — Appel à l'action"
       style={{ backgroundColor: COLORS.bg, fontFamily }}
     >
-      <GridBackground />
+      <GridBackground glow="focus" />
 
       <CameraMovement
         depth={DEPTH.board}
         atInSeconds={CAMERA.atInSeconds}
         zoom={CAMERA.zoom}
         curves={CAMERA.curves}
+        panY={[0, -10]}
+        sway={0.5}
         driftY={0}
       >
         <AbsoluteFill
@@ -91,6 +93,8 @@ export const CtaScene: React.FC = () => {
         atInSeconds={CAMERA.atInSeconds}
         zoom={CAMERA.zoom}
         curves={CAMERA.curves}
+        panY={[0, -10]}
+        sway={0.5}
         driftY={0}
       >
         <AbsoluteFill style={{ paddingTop: 336 }}>

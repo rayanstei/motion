@@ -1,4 +1,4 @@
-import { COLORS, SHADOWS } from "../theme";
+import { COLORS, SHADOWS, SURFACE } from "../theme";
 
 const pad = (value: number) => (value < 10 ? "0" + value : "" + value);
 
@@ -29,8 +29,8 @@ export const TimeCounter: React.FC<{
         padding: "16px 20px",
         borderRadius: 20,
         backgroundColor: COLORS.white,
-        border: "1px solid " + COLORS.line,
-        boxShadow: SHADOWS.card,
+        border: SURFACE.border,
+        boxShadow: SHADOWS.card + ", " + SURFACE.rim,
       }}
     >
       <div

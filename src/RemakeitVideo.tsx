@@ -1,6 +1,5 @@
-import { Audio } from "@remotion/media";
 import { TransitionSeries } from "@remotion/transitions";
-import { Easing, interpolate, staticFile, useVideoConfig } from "remotion";
+import { AudioMix } from "./AudioMix";
 import { AiClippingScene } from "./scenes/AiClippingScene";
 import { AutoPublishScene } from "./scenes/AutoPublishScene";
 import { CtaScene } from "./scenes/CtaScene";
@@ -11,20 +10,7 @@ import { OverloadScene } from "./scenes/OverloadScene";
 import { PasteLinkScene } from "./scenes/PasteLinkScene";
 import { ProblemScene } from "./scenes/ProblemScene";
 import { ReadyToPostScene } from "./scenes/ReadyToPostScene";
-
-/**
- * Musique générale — "Close Up", Michael Ramir C. (Mixkit).
- * Le morceau fait 1:35, il est coupé net à la durée de la vidéo.
- *
- * `volume` est le seul réglage à toucher : il est volontairement gardé sous
- * le maximum pour laisser de la place aux SFX dans un second temps.
- */
-const MUSIC = {
-  file: "mixkit-close-up-1167.mp3",
-  volume: 0.55,
-  fadeInInSeconds: 0.9,
-  fadeOutInSeconds: 1.8,
-};
+import { SoundDesign } from "./SoundDesign";
 
 /**
  * Montage de la vidéo Remakeit.
@@ -34,35 +20,11 @@ const MUSIC = {
  * zoom caméra de la carte vidéo), c'est ce qui assure la continuité.
  */
 export const RemakeitVideo: React.FC = () => {
-  const { fps, durationInFrames } = useVideoConfig();
-
   return (
     <>
-      <Audio
-        src={staticFile(MUSIC.file)}
-        trimAfter={durationInFrames}
-        volume={(f) =>
-          interpolate(
-            f,
-            [
-              0,
-              MUSIC.fadeInInSeconds * fps,
-              durationInFrames - MUSIC.fadeOutInSeconds * fps,
-              durationInFrames,
-            ],
-            [0, MUSIC.volume, MUSIC.volume, 0],
-            {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: [
-                Easing.bezier(0.4, 0, 0.2, 1),
-                Easing.linear,
-                Easing.bezier(0.4, 0, 0.6, 1),
-              ],
-            },
-          )
-        }
-      />
+      <AudioMix />
+
+      <SoundDesign />
 
       <TransitionSeries>
         <TransitionSeries.Sequence

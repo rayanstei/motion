@@ -11,7 +11,7 @@ import { EditorTimeline } from "../components/EditorTimeline";
 import { GridBackground } from "../components/GridBackground";
 import { TimeCounter } from "../components/TimeCounter";
 import { VideoCard } from "../components/VideoCard";
-import { COLORS, fontFamily } from "../theme";
+import { COLORS, DOF, fontFamily } from "../theme";
 import { SCENE3_TRACKS, SOURCE_VIDEO, STAGE } from "./story";
 
 /* ────────────────────────────────────────────────────────────────
@@ -52,18 +52,28 @@ export const NoTimeScene: React.FC = () => {
   const { fps } = useVideoConfig();
 
   /** 0 → 1, de plus en plus vite, puis figé net à l'arrêt. */
-  const chaos = interpolate(frame, [0, 1.5 * fps, TIMING.stop * fps], [0, 0.42, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: [Easing.bezier(0.5, 0, 0.85, 0.4), Easing.bezier(0.6, 0, 1, 0.7)],
-  });
+  const chaos = interpolate(
+    frame,
+    [0, 1.5 * fps, TIMING.stop * fps],
+    [0, 0.42, 1],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+      easing: [Easing.bezier(0.5, 0, 0.85, 0.4), Easing.bezier(0.6, 0, 1, 0.7)],
+    },
+  );
 
   /** Perte d'énergie juste après l'arrêt : le décor passe en arrière-plan. */
-  const dim = interpolate(frame, [TIMING.stop * fps, (TIMING.stop + 0.22) * fps], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.bezier(0.3, 0, 0.2, 1),
-  });
+  const dim = interpolate(
+    frame,
+    [TIMING.stop * fps, (TIMING.stop + 0.22) * fps],
+    [0, 1],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+      easing: Easing.bezier(0.3, 0, 0.2, 1),
+    },
+  );
 
   /** Dégagement final : le montage tombe, la vidéo revient au centre. */
   const clear = interpolate(
@@ -82,26 +92,39 @@ export const NoTimeScene: React.FC = () => {
       name="Scène 3 — Plus le temps"
       style={{ backgroundColor: COLORS.bg, fontFamily }}
     >
-      <GridBackground />
+      <GridBackground glow="deep" />
 
       <CameraMovement
         depth={DEPTH.panel}
         atInSeconds={CAMERA.atInSeconds}
         zoom={CAMERA.zoom}
         curves={CAMERA.curves}
+        panX={[0, 14, 16, 20]}
+        sway={0.6}
+        motionBlur={0.8}
         driftY={0}
       >
         <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", paddingTop: 410 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingTop: 410,
+          }}
         >
           <div
             style={{
               opacity: (1 - dim * 0.55) * (1 - clear),
-              filter: "blur(" + (dim * 3 + clear * 14) + "px) saturate(" + (1 - dim * 0.5) + ")",
+              filter:
+                "blur(" +
+                (dim * 3 + clear * 14) +
+                "px) saturate(" +
+                (1 - dim * 0.5) +
+                ")",
               translate:
                 Math.sin(frame / (fps * 0.13)) * 2.4 * (1 - dim) +
                 "px " +
-                (Math.sin(frame / (fps * 0.09) + 1.6) * 2.4 * (1 - dim) + clear * 150) +
+                (Math.sin(frame / (fps * 0.09) + 1.6) * 2.4 * (1 - dim) +
+                  clear * 150) +
                 "px",
               scale: 1 - clear * 0.12,
             }}
@@ -116,7 +139,11 @@ export const NoTimeScene: React.FC = () => {
         </AbsoluteFill>
 
         <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", paddingBottom: 116 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingBottom: 116,
+          }}
         >
           <div
             style={{
@@ -159,16 +186,26 @@ export const NoTimeScene: React.FC = () => {
         atInSeconds={CAMERA.atInSeconds}
         zoom={CAMERA.zoom}
         curves={CAMERA.curves}
+        panX={[0, 14, 16, 20]}
+        sway={0.6}
+        motionBlur={0.8}
         driftY={0}
       >
         <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", paddingBottom: 350 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingBottom: 350,
+          }}
         >
           <div
             style={{
               opacity: (1 - dim * 0.4) * (1 - clear),
-              filter: "blur(" + clear * 16 + "px)",
-              translate: "0px " + (Math.sin(frame / (fps * 1.4)) * 3 + clear * 235) + "px",
+              filter: "blur(" + (DOF.midground + clear * 16) + "px)",
+              translate:
+                "0px " +
+                (Math.sin(frame / (fps * 1.4)) * 3 + clear * 235) +
+                "px",
               scale: 0.42 + clear * 0.46,
             }}
           >
@@ -190,16 +227,24 @@ export const NoTimeScene: React.FC = () => {
         atInSeconds={CAMERA.atInSeconds}
         zoom={CAMERA.zoom}
         curves={CAMERA.curves}
+        panX={[0, 14, 16, 20]}
+        sway={0.6}
+        motionBlur={0.8}
         driftY={0}
       >
         <AbsoluteFill
           style={{
             paddingTop: 140,
-            opacity: interpolate(frame, [2.72 * fps, TIMING.clearEnd * fps], [1, 0], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.5, 0, 0.75, 0.2),
-            }),
+            opacity: interpolate(
+              frame,
+              [2.72 * fps, TIMING.clearEnd * fps],
+              [1, 0],
+              {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+                easing: Easing.bezier(0.5, 0, 0.75, 0.2),
+              },
+            ),
             translate: interpolate(
               frame,
               [2.72 * fps, TIMING.clearEnd * fps],

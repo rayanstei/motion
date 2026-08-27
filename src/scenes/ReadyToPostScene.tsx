@@ -8,11 +8,13 @@ import {
 import { AnimatedText } from "../components/AnimatedText";
 import { AppWindow } from "../components/AppWindow";
 import { CameraMovement } from "../components/CameraMovement";
+import { FloatingAssets } from "../components/FloatingAsset";
 import { GridBackground } from "../components/GridBackground";
+import { Outro } from "../components/Outro";
 import { ShortsBoard } from "../components/ShortsBoard";
 import { COLORS, fontFamily } from "../theme";
 import { AnalysisStrip } from "./AiClippingScene";
-import { APP, BOARD_HANDOVER } from "./story";
+import { APP, BOARD_ASSETS, BOARD_HANDOVER } from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 7 — "Prêt à poster."  (0:23 → 0:26,5)
@@ -48,7 +50,17 @@ export const ReadyToPostScene: React.FC = () => {
       name="Scène 7 — Prêt à poster"
       style={{ backgroundColor: COLORS.bg, fontFamily }}
     >
-      <GridBackground />
+      <GridBackground glow="wide" />
+
+      <CameraMovement
+        depth={0.9}
+        atInSeconds={CAMERA.atInSeconds}
+        zoom={CAMERA.zoom}
+        curves={CAMERA.curves}
+        driftY={0}
+      >
+        <FloatingAssets specs={BOARD_ASSETS} />
+      </CameraMovement>
 
       <CameraMovement
         depth={DEPTH.window}
@@ -58,7 +70,11 @@ export const ReadyToPostScene: React.FC = () => {
         driftY={0}
       >
         <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", paddingTop: 140 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingTop: 140,
+          }}
         >
           <div
             style={{
@@ -75,7 +91,9 @@ export const ReadyToPostScene: React.FC = () => {
           </div>
         </AbsoluteFill>
 
-        <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
+        <AbsoluteFill
+          style={{ alignItems: "center", justifyContent: "center" }}
+        >
           <div
             style={{
               opacity: 1 - leave,
@@ -106,28 +124,30 @@ export const ReadyToPostScene: React.FC = () => {
         curves={CAMERA.curves}
         driftY={0}
       >
-        <AbsoluteFill style={{ paddingTop: 140 }}>
-          <AnimatedText
-            fontSize={HEADLINE.fontSize}
-            gap={HEADLINE.gap}
-            words={[
-              { text: "Prêt", atInSeconds: 0.35, highlight: true },
-              { text: "à", atInSeconds: 0.43 },
-              { text: "poster.", atInSeconds: 0.51 },
-            ]}
-          />
-        </AbsoluteFill>
+        <Outro atInSeconds={3.1}>
+          <AbsoluteFill style={{ paddingTop: 140 }}>
+            <AnimatedText
+              fontSize={HEADLINE.fontSize}
+              gap={HEADLINE.gap}
+              words={[
+                { text: "Prêt", atInSeconds: 0.35, highlight: true },
+                { text: "à", atInSeconds: 0.43 },
+                { text: "poster.", atInSeconds: 0.51 },
+              ]}
+            />
+          </AbsoluteFill>
 
-        <AbsoluteFill style={{ paddingTop: 252 }}>
-          <AnimatedText
-            fontSize={36}
-            gap={12}
-            words={[
-              { text: "Optimisé", atInSeconds: 0.95, soft: true },
-              { text: "TikTok", atInSeconds: 1.03, soft: true },
-            ]}
-          />
-        </AbsoluteFill>
+          <AbsoluteFill style={{ paddingTop: 252 }}>
+            <AnimatedText
+              fontSize={36}
+              gap={12}
+              words={[
+                { text: "Optimisé", atInSeconds: 0.95, soft: true },
+                { text: "TikTok", atInSeconds: 1.03, soft: true },
+              ]}
+            />
+          </AbsoluteFill>
+        </Outro>
       </CameraMovement>
     </AbsoluteFill>
   );

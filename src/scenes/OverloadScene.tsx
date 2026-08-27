@@ -8,10 +8,11 @@ import {
 import { AnimatedText } from "../components/AnimatedText";
 import { CameraMovement } from "../components/CameraMovement";
 import { EditorTimeline } from "../components/EditorTimeline";
+import { FloatingAssets } from "../components/FloatingAsset";
 import { GridBackground } from "../components/GridBackground";
 import { VideoCard } from "../components/VideoCard";
-import { COLORS, fontFamily } from "../theme";
-import { SCENE2_TRACKS, SOURCE_VIDEO, STAGE } from "./story";
+import { COLORS, DOF, fontFamily } from "../theme";
+import { SCENE2_ASSETS, SCENE2_TRACKS, SOURCE_VIDEO, STAGE } from "./story";
 
 /* ────────────────────────────────────────────────────────────────
  * Scène 2 — "Mais créer du contenu prend du temps."  (0:03 → 0:07)
@@ -48,23 +49,42 @@ export const OverloadScene: React.FC = () => {
       name="Scène 2 — Le montage"
       style={{ backgroundColor: COLORS.bg, fontFamily }}
     >
-      <GridBackground />
+      <GridBackground glow="deep" />
+
+      <CameraMovement
+        depth={0.9}
+        atInSeconds={CAMERA.atInSeconds}
+        zoom={CAMERA.zoom}
+        curves={CAMERA.curves}
+        sway={0.7}
+        motionBlur={1}
+        driftY={0}
+      >
+        <FloatingAssets specs={SCENE2_ASSETS} />
+      </CameraMovement>
 
       <CameraMovement
         depth={DEPTH.preview}
         atInSeconds={CAMERA.atInSeconds}
         zoom={CAMERA.zoom}
         curves={CAMERA.curves}
+        sway={0.7}
+        motionBlur={1}
         driftY={0}
       >
         <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", paddingBottom: 350 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingBottom: 350,
+          }}
         >
           <div
             style={{
               scale: 0.42,
-              translate:
-                "0px " + Math.sin(frame / (fps * 1.4)) * 3 + "px",
+              // Le moniteur est en second plan : le sujet, c'est la timeline.
+              filter: "blur(" + DOF.midground + "px)",
+              translate: "0px " + Math.sin(frame / (fps * 1.4)) * 3 + "px",
             }}
           >
             <VideoCard
@@ -85,10 +105,16 @@ export const OverloadScene: React.FC = () => {
         atInSeconds={CAMERA.atInSeconds}
         zoom={CAMERA.zoom}
         curves={CAMERA.curves}
+        sway={0.7}
+        motionBlur={1}
         driftY={0}
       >
         <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", paddingTop: 410 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingTop: 410,
+          }}
         >
           <div
             style={{
@@ -136,11 +162,16 @@ export const OverloadScene: React.FC = () => {
                 width={STAGE.panelWidth}
                 height={STAGE.panelHeight}
                 tracks={SCENE2_TRACKS}
-                playhead={interpolate(frame, [0.3 * fps, 3.9 * fps], [0.02, 0.8], {
-                  extrapolateLeft: "clamp",
-                  extrapolateRight: "clamp",
-                  easing: Easing.bezier(0.35, 0, 0.65, 1),
-                })}
+                playhead={interpolate(
+                  frame,
+                  [0.3 * fps, 3.9 * fps],
+                  [0.02, 0.8],
+                  {
+                    extrapolateLeft: "clamp",
+                    extrapolateRight: "clamp",
+                    easing: Easing.bezier(0.35, 0, 0.65, 1),
+                  },
+                )}
               />
             </div>
           </div>
@@ -152,6 +183,8 @@ export const OverloadScene: React.FC = () => {
         atInSeconds={CAMERA.atInSeconds}
         zoom={CAMERA.zoom}
         curves={CAMERA.curves}
+        sway={0.7}
+        motionBlur={1}
         driftY={0}
       >
         <AbsoluteFill

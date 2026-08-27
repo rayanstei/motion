@@ -9,8 +9,10 @@ import { AnimatedText } from "../components/AnimatedText";
 import { AppWindow } from "../components/AppWindow";
 import { CameraMovement } from "../components/CameraMovement";
 import { GridBackground } from "../components/GridBackground";
+import { Outro } from "../components/Outro";
+import { Levitate } from "../components/Levitate";
 import { VideoCard } from "../components/VideoCard";
-import { COLORS, SHADOWS, fontFamily } from "../theme";
+import { COLORS, SHADOWS, SURFACE, fontFamily } from "../theme";
 import { BOARD_SHORTS, ShortsBoard } from "../components/ShortsBoard";
 import { APP, BOARD_HANDOVER, SOURCE_VIDEO, STAGE } from "./story";
 
@@ -75,58 +77,73 @@ export const AiClippingScene: React.FC = () => {
         curves={CAMERA.curves}
         driftY={0}
       >
-        <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", paddingTop: 140 }}
-        >
-          <AppWindow
-            width={APP.windowWidth}
-            height={APP.windowHeight}
-            label="remakeit.io"
-          />
-        </AbsoluteFill>
-
-        <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-          <div
+        <Levitate amplitude={2.5} periodInSeconds={7} phase={3.59}>
+          <AbsoluteFill
             style={{
-              opacity: 1 - leave,
-              filter: "blur(" + leave * 12 + "px)",
-              translate: "0px " + (APP.previewY + leave * 96) + "px",
-              scale: APP.previewScale * (1 - leave * 0.42),
+              alignItems: "center",
+              justifyContent: "center",
+              paddingTop: 140,
             }}
           >
-            <VideoCard
-              width={STAGE.cardWidth}
-              title={SOURCE_VIDEO.title}
-              channel={SOURCE_VIDEO.channel}
-              meta={SOURCE_VIDEO.meta}
-              duration={SOURCE_VIDEO.duration}
-              clickAtInSeconds={99}
-              showAction={false}
+            <AppWindow
+              width={APP.windowWidth}
+              height={APP.windowHeight}
+              label="remakeit.io"
             />
-          </div>
-        </AbsoluteFill>
+          </AbsoluteFill>
 
-        <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-          <div
-            style={{
-              opacity: interpolate(frame, [0.2 * fps, 0.7 * fps], [0, 1], {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.bezier(0.4, 0, 0.2, 1),
-              }),
-              translate:
-                "0px " +
-                interpolate(frame, [0.2 * fps, 0.8 * fps], [APP.analysisY + 30, APP.analysisY], {
+          <AbsoluteFill
+            style={{ alignItems: "center", justifyContent: "center" }}
+          >
+            <div
+              style={{
+                opacity: 1 - leave,
+                filter: "blur(" + leave * 12 + "px)",
+                translate: "0px " + (APP.previewY + leave * 96) + "px",
+                scale: APP.previewScale * (1 - leave * 0.42),
+              }}
+            >
+              <VideoCard
+                width={STAGE.cardWidth}
+                title={SOURCE_VIDEO.title}
+                channel={SOURCE_VIDEO.channel}
+                meta={SOURCE_VIDEO.meta}
+                duration={SOURCE_VIDEO.duration}
+                clickAtInSeconds={99}
+                showAction={false}
+              />
+            </div>
+          </AbsoluteFill>
+
+          <AbsoluteFill
+            style={{ alignItems: "center", justifyContent: "center" }}
+          >
+            <div
+              style={{
+                opacity: interpolate(frame, [0.2 * fps, 0.7 * fps], [0, 1], {
                   extrapolateLeft: "clamp",
                   extrapolateRight: "clamp",
-                  easing: Easing.bezier(0.16, 1, 0.3, 1),
-                }) +
-                "px",
-            }}
-          >
-            <AnalysisStrip />
-          </div>
-        </AbsoluteFill>
+                  easing: Easing.bezier(0.4, 0, 0.2, 1),
+                }),
+                translate:
+                  "0px " +
+                  interpolate(
+                    frame,
+                    [0.2 * fps, 0.8 * fps],
+                    [APP.analysisY + 30, APP.analysisY],
+                    {
+                      extrapolateLeft: "clamp",
+                      extrapolateRight: "clamp",
+                      easing: Easing.bezier(0.16, 1, 0.3, 1),
+                    },
+                  ) +
+                  "px",
+              }}
+            >
+              <AnalysisStrip />
+            </div>
+          </AbsoluteFill>
+        </Levitate>
       </CameraMovement>
 
       <CameraMovement
@@ -146,29 +163,31 @@ export const AiClippingScene: React.FC = () => {
         curves={CAMERA.curves}
         driftY={0}
       >
-        <AbsoluteFill style={{ paddingTop: 140 }}>
-          <AnimatedText
-            fontSize={HEADLINE.fontSize}
-            gap={HEADLINE.gap}
-            words={[
-              { text: "L'IA", atInSeconds: 0.3, highlight: true },
-              { text: "crée", atInSeconds: 0.4 },
-              { text: "votre", atInSeconds: 0.5 },
-              { text: "vidéo", atInSeconds: 0.6 },
-            ]}
-          />
-        </AbsoluteFill>
+        <Outro atInSeconds={3.6}>
+          <AbsoluteFill style={{ paddingTop: 140 }}>
+            <AnimatedText
+              fontSize={HEADLINE.fontSize}
+              gap={HEADLINE.gap}
+              words={[
+                { text: "L'IA", atInSeconds: 0.3, highlight: true },
+                { text: "crée", atInSeconds: 0.4 },
+                { text: "votre", atInSeconds: 0.5 },
+                { text: "vidéo", atInSeconds: 0.6 },
+              ]}
+            />
+          </AbsoluteFill>
 
-        <AbsoluteFill style={{ paddingTop: 252 }}>
-          <AnimatedText
-            fontSize={36}
-            gap={12}
-            words={[
-              { text: "Clipping", atInSeconds: 2.5, soft: true },
-              { text: "automatique", atInSeconds: 2.58, soft: true },
-            ]}
-          />
-        </AbsoluteFill>
+          <AbsoluteFill style={{ paddingTop: 252 }}>
+            <AnimatedText
+              fontSize={36}
+              gap={12}
+              words={[
+                { text: "Clipping", atInSeconds: 2.5, soft: true },
+                { text: "automatique", atInSeconds: 2.58, soft: true },
+              ]}
+            />
+          </AbsoluteFill>
+        </Outro>
       </CameraMovement>
     </AbsoluteFill>
   );
@@ -196,8 +215,8 @@ export const AnalysisStrip: React.FC<{ timeOffsetInSeconds?: number }> = ({
         padding: 14,
         borderRadius: 18,
         backgroundColor: COLORS.white,
-        border: "1px solid " + COLORS.line,
-        boxShadow: SHADOWS.short,
+        border: SURFACE.border,
+        boxShadow: SHADOWS.pill + ", " + SURFACE.rim,
         overflow: "hidden",
       }}
     >
@@ -213,8 +232,17 @@ export const AnalysisStrip: React.FC<{ timeOffsetInSeconds?: number }> = ({
           gap: 8,
         }}
       >
-        <div style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: COLORS.blue }} />
-        <div style={{ fontSize: 14, fontWeight: 600, color: COLORS.inkSoft }}>Analyse</div>
+        <div
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: 3,
+            backgroundColor: COLORS.blue,
+          }}
+        />
+        <div style={{ fontSize: 14, fontWeight: 600, color: COLORS.inkSoft }}>
+          Analyse
+        </div>
       </div>
 
       <div
@@ -246,7 +274,9 @@ export const AnalysisStrip: React.FC<{ timeOffsetInSeconds?: number }> = ({
                   "CC 100%)"
                 : "linear-gradient(180deg, #D3DAE7 0%, #C6CEDD 100%)",
               boxShadow: segment.accent
-                ? "0 0 0 3px " + segment.accent + "2E, inset 0 1px 0 rgba(255,255,255,0.35)"
+                ? "0 0 0 3px " +
+                  segment.accent +
+                  "2E, inset 0 1px 0 rgba(255,255,255,0.35)"
                 : "inset 0 1px 0 rgba(255,255,255,0.5)",
               opacity: segment.accent
                 ? interpolate(

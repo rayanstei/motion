@@ -8,6 +8,7 @@ import {
 } from "remotion";
 import { AnimatedText } from "../components/AnimatedText";
 import { CameraMovement } from "../components/CameraMovement";
+import { Cursor } from "../components/Cursor";
 import { GridBackground } from "../components/GridBackground";
 import { ShortCard, ShortSpec } from "../components/ShortCard";
 import { VideoCard } from "../components/VideoCard";
@@ -93,7 +94,10 @@ export const OneVideoManyShorts: React.FC = () => {
   const { fps } = useVideoConfig();
 
   return (
-    <AbsoluteFill name="Scène" style={{ backgroundColor: COLORS.bg, fontFamily }}>
+    <AbsoluteFill
+      name="Scène"
+      style={{ backgroundColor: COLORS.bg, fontFamily }}
+    >
       <GridBackground />
 
       {/* Les shorts sont sous la carte vidéo : ils en sortent réellement. */}
@@ -115,7 +119,11 @@ export const OneVideoManyShorts: React.FC = () => {
 
       <CameraMovement depth={DEPTH.card}>
         <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", paddingTop: 120 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingTop: 120,
+          }}
         >
           <Interactive.Div
             name="Carte vidéo"
@@ -132,15 +140,26 @@ export const OneVideoManyShorts: React.FC = () => {
                 {
                   extrapolateLeft: "clamp",
                   extrapolateRight: "clamp",
-                  easing: [Easing.bezier(0.16, 1, 0.3, 1), Easing.bezier(0.4, 0, 0.6, 1)],
+                  easing: [
+                    Easing.bezier(0.16, 1, 0.3, 1),
+                    Easing.bezier(0.4, 0, 0.6, 1),
+                  ],
                 },
               ),
-              scale: interpolate(frame, [0, 1 * fps, 5 * fps], [0.93, 1, 1.008], {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: [Easing.bezier(0.16, 1, 0.3, 1), Easing.bezier(0.4, 0, 0.6, 1)],
-                output: "perceptual-scale",
-              }),
+              scale: interpolate(
+                frame,
+                [0, 1 * fps, 5 * fps],
+                [0.93, 1, 1.008],
+                {
+                  extrapolateLeft: "clamp",
+                  extrapolateRight: "clamp",
+                  easing: [
+                    Easing.bezier(0.16, 1, 0.3, 1),
+                    Easing.bezier(0.4, 0, 0.6, 1),
+                  ],
+                  output: "perceptual-scale",
+                },
+              ),
               filter:
                 "blur(" +
                 interpolate(frame, [0, 0.5 * fps], [12, 0], {
@@ -162,7 +181,17 @@ export const OneVideoManyShorts: React.FC = () => {
           </Interactive.Div>
         </AbsoluteFill>
 
-        <Cursor />
+        <Cursor
+          from={{ x: CURSOR.fromX, y: CURSOR.fromY }}
+          to={{ x: CURSOR.toX, y: CURSOR.toY }}
+          startInSeconds={TIMING.cursorIn}
+          arriveInSeconds={TIMING.click}
+          clickAtInSeconds={TIMING.click}
+          leaveAtInSeconds={1.4}
+          leaveDurationInSeconds={0.35}
+          leaveOffset={{ x: 40, y: 70 }}
+          arc={70}
+        />
       </CameraMovement>
 
       <CameraMovement depth={DEPTH.headline}>
@@ -177,7 +206,11 @@ export const OneVideoManyShorts: React.FC = () => {
               { text: "Une", atInSeconds: 0.32 },
               { text: "vidéo", atInSeconds: 0.42 },
               { text: "→", atInSeconds: TIMING.headline, soft: true },
-              { text: "plusieurs", atInSeconds: TIMING.headline + 0.12, highlight: true },
+              {
+                text: "plusieurs",
+                atInSeconds: TIMING.headline + 0.12,
+                highlight: true,
+              },
               { text: "shorts", atInSeconds: TIMING.headline + 0.24 },
             ]}
           />
@@ -214,7 +247,11 @@ const Connections: React.FC = () => {
         ),
       }}
     >
-      <svg width={width} height={height} viewBox={"0 0 " + width + " " + height}>
+      <svg
+        width={width}
+        height={height}
+        viewBox={"0 0 " + width + " " + height}
+      >
         {SHORTS.map((short) => {
           const targetX = width / 2 + short.x;
           const targetY = height / 2 + CARD.offsetY + short.y;
@@ -261,103 +298,20 @@ const Connections: React.FC = () => {
               strokeLinecap="round"
               pathLength={1}
               strokeDasharray={1}
-              strokeDashoffset={interpolate(frame, [draw, draw + 1.0 * fps], [1, 0], {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.bezier(0.16, 1, 0.3, 1),
-              })}
+              strokeDashoffset={interpolate(
+                frame,
+                [draw, draw + 1.0 * fps],
+                [1, 0],
+                {
+                  extrapolateLeft: "clamp",
+                  extrapolateRight: "clamp",
+                  easing: Easing.bezier(0.16, 1, 0.3, 1),
+                },
+              )}
             />
           );
         })}
       </svg>
-    </AbsoluteFill>
-  );
-};
-
-/** Curseur qui vient déclencher la génération, puis quitte le cadre. */
-const Cursor: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const click = TIMING.click * fps;
-
-  return (
-    <AbsoluteFill
-      style={{
-        opacity: interpolate(
-          frame,
-          [TIMING.cursorIn * fps, (TIMING.cursorIn + 0.2) * fps, 1.4 * fps, 1.75 * fps],
-          [0, 1, 1, 0],
-          {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: [
-              Easing.bezier(0.4, 0, 0.2, 1),
-              Easing.linear,
-              Easing.bezier(0.4, 0, 0.2, 1),
-            ],
-          },
-        ),
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          top: 0,
-          translate: interpolate(
-            frame,
-            [TIMING.cursorIn * fps, click, 1.75 * fps],
-            [
-              CURSOR.fromX + "px " + CURSOR.fromY + "px",
-              CURSOR.toX + "px " + CURSOR.toY + "px",
-              CURSOR.toX + 40 + "px " + (CURSOR.toY + 70) + "px",
-            ],
-            {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: [Easing.bezier(0.18, 0.86, 0.24, 1), Easing.bezier(0.4, 0, 0.7, 1)],
-            },
-          ),
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            left: -30,
-            top: -30,
-            width: 60,
-            height: 60,
-            borderRadius: 30,
-            border: "2px solid " + COLORS.blue,
-            opacity: interpolate(frame, [click, click + 0.45 * fps], [0.5, 0], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.2, 0, 0.2, 1),
-            }),
-            scale: interpolate(frame, [click, click + 0.45 * fps], [0.3, 1.5], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-              output: "perceptual-scale",
-            }),
-          }}
-        />
-
-        <svg
-          width={30}
-          height={38}
-          viewBox="0 0 30 38"
-          style={{ filter: "drop-shadow(0 6px 12px rgba(11,18,32,0.28))" }}
-        >
-          <path
-            d="M2 2 L2 27 L9 20.5 L13.5 30.5 L18.5 28 L14 18.5 L23 18 Z"
-            fill={COLORS.ink}
-            stroke="#FFFFFF"
-            strokeWidth={2}
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
     </AbsoluteFill>
   );
 };
